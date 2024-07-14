@@ -1,0 +1,12 @@
+#result {
+  max-width: 55rem;
+  margin: 3rem auto 0 auto;
+  text-align: center;
+}
+
+.title {
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-style: italic;
+  text-align: center;
+}
