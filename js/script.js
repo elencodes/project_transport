@@ -6,7 +6,7 @@ class Transport {
 		this.price = price;
 	}
 	getInfo() {
-		return `ТС: ${this.type}, Марка: ${this.brand}`
+		return `Вид ТС: ${this.type}, Марка: ${this.brand}`
 	}
 	getPrice() {
 		return `Стоимость: ${this.price.toLocaleString("ru-RU")} руб.`
@@ -20,9 +20,6 @@ class Car extends Transport {
 		this.doors = doors;
 	}
 
-	getInfo = this.getInfo.bind(this)
-	getPrice = this.getPrice.bind(this)
-
 	getDoorsCount() {
 		return `Количество дверей: ${this.doors}`
 	}
@@ -34,9 +31,6 @@ class Bike extends Transport {
 		super(type, brand, price);
 		this.maxSpeed = maxSpeed;
 	}
-
-	getInfo = this.getInfo.bind(this)
-	getPrice = this.getPrice.bind(this)
 
 	getMaxSpeed() {
 		return `Максимальная скорость: ${this.maxSpeed} км/ч`
@@ -81,90 +75,49 @@ const data = [{
 
 
 //Создаем новые объекты
-const carAudi = new Car(data[0].type, data[0].brand, data[0].price, data[0].doors);
-const carMercedes = new Car(data[1].type, data[1].brand, data[1].price, data[1].doors);
-const bikeHarleyFirst = new Bike(data[2].type, data[2].brand, data[2].price, data[2].maxSpeed);
-const bikeHarleySecond = new Bike(data[3].type, data[3].brand, data[3].price, data[3].maxSpeed);
+const vehicles = data.map(item => {
+	if (item.type === 'car') {
+		return new Car(item.type, item.brand, item.price, item.doors);
+	} else if (item.type === 'bike') {
+		return new Bike(item.type, item.brand, item.price, item.maxSpeed);
+	}
+})
 
 
-// Ищем объекты (область списка для вывода транспорта) в HTML документе для дальнейшего взаимодействия.
+// Ищем область списка для вывода транспорта в HTML документе для дальнейшего взаимодействия.
 const result = document.querySelector(`#result`);
 
-//Создаем новые элементы (нумерованный список и заголовки) для отображения списка имен режиссеров
-const transportInfoAudi = document.createElement(`h4`);
-const transportInfoMercedes = document.createElement(`h4`);
-const transportInfoHarleyFirst = document.createElement(`h4`);
-const transportInfoHarleySecond = document.createElement(`h4`);
 
-//Создаем новые элементы (абзац) для отображения количества дверей ТС
-const transportDoorsAudi = document.createElement(`p`);
-const transportDoorsMercedes = document.createElement(`p`);
-
-//Создаем новые элементы (абзац) для отображения скорости ТС
-const transportSpeedHarleyFirst = document.createElement(`p`);
-const transportSpeedHarleySecond = document.createElement(`p`);
-
-//Создаем новые элементы (абзац) для отображения стоимости ТС
-const transportPriceAudi = document.createElement(`p`);
-transportPriceAudi.style.marginBottom = "3rem";
-const transportPriceMercedes = document.createElement(`p`);
-transportPriceMercedes.style.marginBottom = "3rem";
-const transportPriceHarleyFirst = document.createElement(`p`);
-transportPriceHarleyFirst.style.marginBottom = "3rem";
-const transportPriceHarleySecond = document.createElement(`p`);
-transportPriceHarleySecond.style.marginBottom = "3rem";
-
-// Наполняем новый элемент контентом (значение тега h3 - информация о ТС № 1)
-transportInfoAudi.textContent = `${carAudi.getInfo()}`;
-// Вставляем новый элемент (информация о ТС № 1) внутрь и в начало списка с информацией о всех ТС
-result.appendChild(transportInfoAudi);
-//Наполняем новый элемент контентом (значение тега p теперь количество дверей ТС)
-transportDoorsAudi.textContent = `${carAudi.getDoorsCount()}`;
-// Вставляем новый элемент (стоимость ТС № 1) рядом со стоимостью ТС № 1
-transportInfoAudi.appendChild(transportDoorsAudi);
-//Наполняем новый элемент контентом (значение тега p теперь цена ТС)
-transportPriceAudi.textContent = `${carAudi.getPrice()}`;
-// Вставляем новый элемент (стоимость ТС № 1) рядом с информацией о количестве дверей ТС № 1
-transportDoorsAudi.appendChild(transportPriceAudi);
-
-
-// Наполняем новый элемент контентом (значение тега h3 - информация о ТС № 2)
-transportInfoMercedes.textContent = `${carMercedes.getInfo()}`;
-// Вставляем новый элемент (информация о ТС № 2) внутрь и в начало списка с информацией о всех ТС
-result.appendChild(transportInfoMercedes);
-//Наполняем новый элемент контентом (значение тега p теперь количество дверей ТС)
-transportDoorsMercedes.textContent = `${carMercedes.getDoorsCount()}`;
-// Вставляем новый элемент (стоимость ТС № 2) рядом со стоимостью ТС № 2
-transportInfoMercedes.appendChild(transportDoorsMercedes);
-//Наполняем новый элемент контентом (значение тега p теперь цена ТС)
-transportPriceMercedes.textContent = `${carMercedes.getPrice()}`;
-// Вставляем новый элемент (стоимость ТС № 2) рядом с информацией о количестве дверей ТС № 2
-transportDoorsMercedes.appendChild(transportPriceMercedes);
-
-
-// Наполняем новый элемент контентом (значение тега h3 - информация о ТС № 3)
-transportInfoHarleyFirst.textContent = `${bikeHarleyFirst.getInfo()}`;
-// Вставляем новый элемент (информация о ТС № 3) внутрь и в начало списка с информацией о всех ТС
-result.appendChild(transportInfoHarleyFirst);
-//Наполняем новый элемент контентом (значение тега p теперь скорость ТС)
-transportSpeedHarleyFirst.textContent = `${bikeHarleyFirst.getMaxSpeed()}`;
-// Вставляем новый элемент (скорость ТС № 3) рядом с информацией о ТС № 3
-transportInfoHarleyFirst.appendChild(transportSpeedHarleyFirst);
-//Наполняем новый элемент контентом (значение тега p теперь стоимость ТС)
-transportPriceHarleyFirst.textContent = `${bikeHarleyFirst.getPrice()}`;
-// Вставляем новый элемент (стоимость ТС № 3) рядом со скоростью ТС № 3
-transportSpeedHarleyFirst.appendChild(transportPriceHarleyFirst);
-
-
-// Наполняем новый элемент контентом (значение тега h3 - информация о ТС № 4)
-transportInfoHarleySecond.textContent = `${bikeHarleySecond.getInfo()}`;
-// Вставляем новый элемент (информация о ТС № 4) внутрь и в начало списка с информацией о всех ТС
-result.appendChild(transportInfoHarleySecond);
-//Наполняем новый элемент контентом (значение тега p теперь скорость ТС)
-transportSpeedHarleySecond.textContent = `${bikeHarleySecond.getMaxSpeed()}`;
-// Вставляем новый элемент (скорость ТС № 4) рядом с информацией о ТС № 4
-transportInfoHarleySecond.appendChild(transportSpeedHarleySecond);
-//Наполняем новый элемент контентом (значение тега p теперь стоимость ТС)
-transportPriceHarleySecond.textContent = `${bikeHarleySecond.getPrice()}`;
-// Вставляем новый элемент (стоимость ТС № 4) рядом со скоростью ТС № 4
-transportSpeedHarleySecond.appendChild(transportPriceHarleySecond);
+// С помощью метода forEach перебираем элементы массива и выполняем функцию для каждого элемента массива (новых объектов Car и Bike)
+vehicles.forEach(item => {
+	// Создаем новый элемент (заголовок) для отображения информации о ТС
+	const transportInfo = document.createElement(`h4`);
+	// Наполняем новый элемент контентом (значение тега h4 - информация о ТС)
+	transportInfo.textContent = `${item.getInfo()}`
+	// Вставляем новый элемент внутрь и в начало контейнера div для вывода результата
+	result.appendChild(transportInfo);
+	// Создаем абзац для отображения количества дверей авто
+	const transportDoors = document.createElement(`p`);
+	if (item.type === 'car') {
+		//Наполняем новый элемент контентом (значение тега p теперь количество дверей авто)
+		transportDoors.textContent = `${item.getDoorsCount()}`
+		//Вставляем новый элемент (количество дверей авто) после информации о ТС
+		transportInfo.after(transportDoors);
+	}
+	// Создаем абзац для отображения скорости мотоцикла
+	const transportSpeed = document.createElement(`p`);
+	if (item.type === 'bike') {
+		// Наполняем новый элемент контентом (значение тега p теперь скорость мотоцикла)
+		transportSpeed.textContent = `${item.getMaxSpeed()}`
+		// Вставляем новый элемент (скорость мотоцикла) после информации о ТС
+		transportInfo.after(transportSpeed);
+	}
+	// Создаем новый элемент (заголовок) для отображения стоимости ТС
+	const transportPrice = document.createElement(`p`);
+	transportPrice.style.marginBottom = "3rem";
+	transportPrice.style.color = "red";
+	// Наполняем новый элемент контентом (значение тега p теперь стоимость ТС)
+	transportPrice.textContent = `${item.getPrice()}`
+	// Вставляем новый элемент в контейнер div для вывода результата
+	result.appendChild(transportPrice);
+})
